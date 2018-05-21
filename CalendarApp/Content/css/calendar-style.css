@@ -3,12 +3,19 @@
         text-decoration: none;
     }
 
-    .calendar-wrapper {
-        width: 360px;
-        margin: 40px auto;
-        border-radius: 5px;
-        background: #fff;
-    }
+p {
+    height: 48px;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 20px;
+}
+
+.calendar-wrapper {
+    width: 360px;
+    margin: 40px auto;
+    border-radius: 5px;
+    background: #fff;
+}
 
     table {
         clear: both;
@@ -53,6 +60,10 @@
 
     td.weekend {
         background-color: yellow;
+    }
+
+    td.holiday {
+        background-color: #CE820D;
     }
 
     td.today {
