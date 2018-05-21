@@ -1,0 +1,70 @@
+﻿
+    a {
+        text-decoration: none;
+    }
+
+    .calendar-wrapper {
+        width: 360px;
+        margin: 40px auto;
+        border-radius: 5px;
+        background: #fff;
+    }
+
+    table {
+        clear: both;
+        width: 100%;
+        border: 1px solid #dcdcff;
+        border-radius: 3px;
+        border-collapse: collapse;
+        color: #444;
+    }
+
+    .spliter{
+        padding: 10px;
+    }
+
+    td {
+        height: 48px;
+        text-align: center;
+        vertical-align: middle;
+        border-right: 1px solid #dcdcff;
+        border-top: 1px solid #dcdcff;
+        width: 14.28571429%;
+        font-size: 17px;
+    }
+
+    td.not-current {
+        color: #c0c0c0;
+        background-color: #C4CFD1;
+    }
+
+    td.month {
+        background: #ffffff; /* Old browsers */
+        background: -moz-linear-gradient(top, #ffffff 18%, #ffffff 50%, #ffffff 50%, #dbd6ba 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(top, #ffffff 18%,#ffffff 50%,#ffffff 50%,#dbd6ba 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to bottom, #ffffff 18%,#ffffff 50%,#ffffff 50%,#dbd6ba 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#dbd6ba',GradientType=0 ); /* IE6-9 */
+    }
+
+    td.normal {
+        background-color: #CBE381;
+    }
+
+
+    td.weekend {
+        background-color: yellow;
+    }
+
+    td.today {
+        font-weight: 700;
+        color: #28283b;
+        font-size: 1.5em;
+    }
+
+    thead td {
+        border: none;
+        color: #28283b;
+        text-transform: uppercase;
+        font-size: 1.5em;
+    }
+
