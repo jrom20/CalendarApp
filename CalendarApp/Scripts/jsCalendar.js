@@ -1,5 +1,35 @@
 ﻿var CalendarObject = function () {
 
+    // Holidays based on month, occurrency, day, Static Date
+    var currentHolidaysByCountry = {
+        'US': {
+            "0,2,1": "Martin Luther King, Jr. Day",
+            "1,1,1": "President's Day",
+            "4,1,0": "Mother's Day",
+            "4,-1,1": "Memorial Day",
+            "5,2,0": "Father's Day",
+            "6,2,0": "Parents Day",
+            "8,0,1": "Labor Day",
+            "8,0,0": "Grandparents Day",
+            "9,1,1": "Columbus Day",
+            "10,0,0": "Daylight Savings Time Ends",
+            "10,3,4": "Thanksgiving Day",
+            "6,0,0,4": "Independence day",
+            "0,0,0,1": "New Year's Day",
+            "11,0,0,1": "Christmas Day"
+        },
+        'HN': {
+            "0,0,0,1": "New Year's Day",
+            "2,0,0,19": "Father's Day",
+            "4,1,0": "Mother's Day",
+            "8,0,0,15": "Independence day",
+            "11,0,0,1": "Christmas Day",
+            "9,0,0,3": "Francisco Morazan's Birthday",
+            "9,0,0,4": "Discovery of America Day",
+            "9,0,0,5": "Army Day",
+            "4,0,0,1": "Labor Day",
+        }
+    };
 
     var IndexPageForm = $('#form');
     var btnBack = $('#btnBack');
@@ -39,31 +69,16 @@
         return weeks;
     } 
 
-    var Cal = function (dateToSetup, displayDays) {
+    var Cal = function (dateToSetup, displayDays, countrycode) {
         
         // Days of week, starting on Sunday
         this.DaysOfWeek = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
         // Months, stating on January
         this.Months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
+        
         // Holidays based on month, occurrency, day, Static Date
-        this.Holidays = { 
-            "0,2,1": "Martin Luther King, Jr. Day",
-            "1,1,1": "President's Day",
-            "4,1,0": "Mother's Day",
-            "4,-1,1": "Memorial Day",
-            "5,2,0": "Father's Day",
-            "6,2,0": "Parents Day",
-            "8,0,1": "Labor Day",
-            "8,0,0": "Grandparents Day",
-            "9,1,1": "Columbus Day",
-            "10,0,0": "Daylight Savings Time Ends",
-            "10,3,4": "Thanksgiving Day",
-            "6,0,0,3": "Independence day",
-            "0,0,0,1": "New Year's Day",
-            "11,0,0,1" : "Christmas Day"
-        };
+        this.Holidays = currentHolidaysByCountry[countrycode];
 
         // Set the current month, year
         var d = new Date(dateToSetup);
@@ -284,7 +299,12 @@
         $('.calendar-wrapper').append('<div class="calendar-box">' + html+'</div><div class="spliter"></div>');
 
         //Evaluate If need to display more calendars
-        var needNewIteration = ((addDays(finishDate, TotalHolidays).getMonth() != this.SetUpDate.getMonth()) && (finishDate.getFullYear() == this.SetUpDate.getFullYear())) && (addDays(finishDate, TotalHolidays) > this.SetUpDate);
+        var needNewIteration = (
+            (addDays(finishDate, TotalHolidays).getMonth() != this.SetUpDate.getMonth())
+            ||
+            (addDays(finishDate, TotalHolidays).getMonth() == this.SetUpDate.getMonth() && addDays(finishDate, TotalHolidays).getFullYear() != this.SetUpDate.getFullYear() )
+        ) && (addDays(finishDate, TotalHolidays) > this.SetUpDate);
+
         var newDaysToDisplay = 0,
             NewDateToDisplay = null;
 
@@ -312,13 +332,24 @@
         return result;
     }
 
+    function DisplayTileNumberDays(days) {
+        calendarContainer.append('<div class="row"><div class="col-lg-2"></div> <div class="col-lg-8"><p class="text-center">' + days + ' Day Example</p></div><div class="col-lg-2"></div></div>');
+    }
+
     var createCalendar= function () {
 
         // Start calendar
-        var txtCalendar = Date.parse(getId("startDate").value);
-        var days = getId("numberDays").value;
-        calendarContainer.append('<div class="row"><div class="col-lg-2"></div> <div class="col-lg-8"><p class="text-center">' + days + ' Day Example</p></div><div class="col-lg-2"></div></div>');
-        var ObjectCalendar = new Cal(new Date(txtCalendar), days);
+        var txtCalendar = Date.parse(getId("startDate").value)
+        ,txtNumberdays = getId("numberDays").value
+        ,txtCountryCode = getId("countryCode").value;
+
+        if (!currentHolidaysByCountry.hasOwnProperty(txtCountryCode)) {
+            alert('Sorry, that configuration hasn\'t been loaded yet');
+            return;
+        }
+
+        DisplayTileNumberDays(txtNumberdays);
+        var ObjectCalendar = new Cal(new Date(txtCalendar), txtNumberdays, txtCountryCode);
 
         IndexPageForm.hide();
         btnBack.show();
